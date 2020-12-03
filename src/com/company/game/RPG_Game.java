@@ -9,13 +9,16 @@ public class RPG_Game {
     public static Random random = new Random();
 
     public static void start() {
-        Boss boss = new Boss(1000, 50);
+        Boss boss = new Boss(2000, 50);
         Warrior warrior = new Warrior(270, 20);
         Magic magic = new Magic(230, 15);
         Medic doctor = new Medic(220, 5, 15);
         Berserk berserk = new Berserk(260, 10);
         Medic assistant = new Medic(280, 10, 5);
-        Hero[] heroes = {warrior, magic, doctor, assistant, berserk};
+        Witch witch = new Witch(300, 0);
+        Tank tank = new Tank(370, 2);
+        Thor thor = new Thor(250, 10);
+        Hero[] heroes = {warrior, magic, doctor, assistant, berserk, witch, tank, thor};
 
         while (!isGameFinished(boss, heroes)) {
             round(boss, heroes);
@@ -24,11 +27,19 @@ public class RPG_Game {
 
     private static void round(Boss boss, Hero[] heroes) {
 
+
         printStatistics(boss, heroes);
         heroesHits(boss, heroes);
+        printStatistics(boss, heroes);
         bossHits(boss, heroes);
+        printStatistics(boss, heroes);
+        resetBossEffects(boss);
         applySuperAbilities(boss, heroes);
 
+    }
+
+    private static void resetBossEffects(Boss boss) {
+        boss.setDamage(50);
     }
 
     private static void applySuperAbilities(Boss boss, Hero[] heroes) {
@@ -70,6 +81,7 @@ public class RPG_Game {
     private static boolean isGameFinished(Boss boss, Hero[] heroes) {
 
         if (boss.getHealth() <= 0) {
+            System.out.println("Boss health: " + boss.getHealth());
             System.out.println("Heroes won!");
             return true;
         }
